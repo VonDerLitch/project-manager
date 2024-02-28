@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Projetos Cancelados</title>
+    <link rel="stylesheet" href="{% static 'lista_projetos.css' %}">
+</head>
+<body>
+
+<header>
+    <div>
+        <a href="/index/"><button type="button">Inicio</button></a>
+        <a href="/projetos/"><button type="button">Lista de Projetos</button></a>
+        <a href="/atividades/"><button type="button">Lista de Atividades</button></a>
+        <a href="/logout/"><button type="button">Logout</button></a>       
+    </div>
+    <a>Ambiente De Homologação 1.0.0<a></a>
+    <img src="{% static 'logo-am.png' %}" alt="Logo" style="max-width: 50px; height: auto;" />
+</header>
+
+<h1>Lista de Projetos Cancelados</h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Prioridade</th>
+            <th>Título</th>
+            <th>Área</th>
+            <th>Ação no Sprint</th>
+            <th>Tipo do Projeto</th>
+            <th>Data de Cancelamento</th>
+            <th>Proprietário do Projeto</th>
+            <th>Motivo do Cancelamento</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for projeto in projetos %}
+            <tr>
+                <td>{{ projeto.id }}</td>
+                <td>{{ projeto.prioridade }}</td>
+                <td>{{ projeto.titulo }}</td>
+                <td>{{ projeto.area }}</td>
+                <td>{{ projeto.acao_no_sprint }}</td>
+                <td>{{ projeto.tipo_de_projeto }}</td>
+                <td>{{ projeto.data_cancelamento|date:"d/m/Y H:i" }}</td>
+                <td>{{ projeto.proprietario }}</td>
+                <td>
+                    {{ projeto.ultimo_motivo_cancelamento }}
+                </td>
+                <td class="actions">
+                    <a href="{% url 'update_projeto' projeto.id %}">Editar</a>
+                    <a href="{% url 'detalhes_projeto' projeto.id %}">Visualizar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

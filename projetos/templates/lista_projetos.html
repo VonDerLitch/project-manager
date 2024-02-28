@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Projetos</title>
+    <link rel="stylesheet" href="{% static 'lista_projetos.css' %}">
+</head>
+<body>
+
+<header>
+    <div>
+        <a href="/index/"><button type="button">Inicio</button></a>
+        <!--<a href="/atividades/"><button type="button">Lista de Atividades</button></a>-->
+        <a href="/cadastro_projetos/"><button type="button">Novo Projeto</button></a>
+        <a href="/cadastro_atividades/"><button type="button">Nova Atividade</button></a>
+        <a href="/logout/"><button type="button">Logout</button></a>       
+    </div>
+    <a>Ambiente De Homologação 1.0.0<a></a>
+    <img src="{% static 'logo-am.png' %}" alt="Logo" style="max-width: 50px; height: auto;" />
+</header>
+
+<h1>Lista de Projetos</h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Prioridade</th>
+            <th>Título</th>
+            <th>Status</th>
+            <th>Área</th>
+            <th>Ação no Sprint</th>
+            <th>Tipo do Projeto</th>
+            <th>Data de Início</th>
+            <th>Prazo de Conclusão</th>
+            <th>Proprietário do Projeto</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for projeto in projetos %}
+            <tr>
+                <td>{{ projeto.id }}</td>
+                <td>{{ projeto.prioridade }}</td>
+                <td>{{ projeto.titulo }}</td>
+                <td>{{ projeto.status }}</td>
+                <td>{{ projeto.area }}</td>
+                <td>{{ projeto.acao_no_sprint }}</td>
+                <td>{{ projeto.tipo_de_projeto }}</td>
+                <td>{{ projeto.data_inicio }}</td>
+                <td>{{ projeto.prazo }}</td>
+                <td>{{ projeto.proprietario }}</td>
+                <td class="actions">
+                    <!-- <a href="javascript:void(0);" onclick="confirmarExclusao({{ projeto.id }})">Excluir</a> -->
+                    <a href="{% url 'cancelar' projeto.id %}">Cancelar</a>
+                    <a href="{% url 'update_projeto' projeto.id %}">Editar</a>
+                    <a href="{% url 'detalhes_projeto' projeto.id %}">Visualizar</a>
+
+                    <!-- Visualização da caixa marcada ou desmarcada para o campo "Projeto Principal" -->
+                    <span class="projeto-principal">
+                        {% if projeto.projeto_principal %}
+                            <input type="checkbox" checked disabled>
+                        {% else %}
+                            <input type="checkbox" disabled>
+                        {% endif %}
+                    </span>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    function confirmarExclusao(id_projeto) {
+        var resposta = confirm("Tem certeza que deseja excluir este projeto?");
+        
+        if (resposta) {
+            window.location.href = "{% url 'delete_projeto' 0 %}".replace('0', id_projeto);
+        }
+    }
+</script>
+
+</body>
+</html>
